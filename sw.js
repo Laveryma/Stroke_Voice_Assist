@@ -1,4 +1,4 @@
-const CACHE_NAME = 'clear-voice-stroke-assist-v1';
+const CACHE_NAME = 'clear-voice-stroke-assist-v2';
 
 const APP_SHELL = [
   './',
@@ -10,13 +10,22 @@ const APP_SHELL = [
   './icons/icon-maskable-512.png'
 ];
 
+async function cacheAppShell() {
+  const cache = await caches.open(CACHE_NAME);
+  await cache.addAll(APP_SHELL);
+
+  const response = await fetch('./', { cache: 'reload' });
+  if (!response.ok) {
+    return;
+  }
+
+  const html = await response.text();
+  const assetPaths = Array.from(html.matchAll(/(?:src|href)="(\.\/assets\/[^"]+)"/g), (match) => match[1]);
+  await cache.addAll(assetPaths);
+}
+
 self.addEventListener('install', (event) => {
-  event.waitUntil(
-    caches
-      .open(CACHE_NAME)
-      .then((cache) => cache.addAll(APP_SHELL))
-      .then(() => self.skipWaiting())
-  );
+  event.waitUntil(cacheAppShell().then(() => self.skipWaiting()));
 });
 
 self.addEventListener('activate', (event) => {

@@ -1,0 +1,24 @@
+{
+  "name": "clear-voice-stroke-assist",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A private Progressive Web App communication aid for aphasia and stroke support.",
+  "homepage": "https://Laveryma.github.io/Stroke_Voice_Assist/",
+  "scripts": {
+    "dev": "vite --host 0.0.0.0",
+    "build": "vite build",
+    "preview": "vite preview --host 0.0.0.0",
+    "deploy": "npm run build && gh-pages -d dist",
+    "icons": "node scripts/generate-icons.mjs"
+  },
+  "dependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "latest",
+    "gh-pages": "latest",
+    "sharp": "latest",
+    "vite": "latest"
+  }
+}

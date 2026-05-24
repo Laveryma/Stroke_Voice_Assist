@@ -14,7 +14,9 @@ export const urgentTiles = [
     icon: 'question',
     tone: 'neutral'
   },
-  { id: 'tired', label: 'I am tired', phrase: 'I am tired', icon: 'rest', tone: 'neutral' }
+  { id: 'tired', label: 'I am tired', phrase: 'I am tired', icon: 'rest', tone: 'neutral' },
+  { id: 'quick-yes', label: 'Yes', phrase: 'Yes', icon: 'yes', tone: 'positive' },
+  { id: 'quick-no', label: 'No', phrase: 'No', icon: 'no', tone: 'negative' }
 ];
 
 export const yesNoTiles = [

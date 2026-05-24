@@ -108,6 +108,7 @@ All custom data is stored only on the device:
 - People photos use IndexedDB.
 - No normal app feature requires an external API call.
 - No analytics, tracking, login, account system, or backend is included.
+- The Settings update control refreshes cached app files only and does not remove local customisations.
 
 Clearing Safari website data, removing the PWA, or using Reset all local data in Settings can delete saved customisations.
 

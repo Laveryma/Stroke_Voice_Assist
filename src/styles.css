@@ -717,6 +717,13 @@ input[type='file'] {
   font-weight: 680;
 }
 
+.copyright-mark {
+  padding-top: 4px;
+  font-size: 0.86rem;
+  font-weight: 680;
+  text-align: center;
+}
+
 .danger-panel {
   border-color: color-mix(in srgb, var(--red), white 55%);
 }

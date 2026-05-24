@@ -1,10 +1,15 @@
 import { useEffect, useMemo, useState } from 'react';
+import { refreshInstalledApp } from '../utils/appUpdate.js';
 import { defaultSettings, resolveCalibrationQuestion } from '../utils/storage.js';
 import { getVoices } from '../utils/speech.js';
 
 export default function SettingsScreen({ settings, updateSettings, onReset, onBack, speakPhrase }) {
   const [voices, setVoices] = useState([]);
   const [testPhrase, setTestPhrase] = useState('This is Clear Voice.');
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [refreshStatus, setRefreshStatus] = useState(
+    'Use this if the Home Screen app is showing an older published version.'
+  );
 
   useEffect(() => {
     getVoices().then(setVoices);
@@ -31,6 +36,18 @@ export default function SettingsScreen({ settings, updateSettings, onReset, onBa
     updateSettings({
       calibrationQuestions: nextQuestions.length ? nextQuestions : defaultSettings.calibrationQuestions
     });
+  }
+
+  async function handleRefreshInstalledApp() {
+    setIsRefreshing(true);
+    setRefreshStatus('Clearing the saved app version and fetching the latest files...');
+
+    const result = await refreshInstalledApp();
+    setRefreshStatus(result.message);
+
+    if (!result.ok) {
+      setIsRefreshing(false);
+    }
   }
 
   return (
@@ -152,6 +169,7 @@ export default function SettingsScreen({ settings, updateSettings, onReset, onBa
           Clear Voice is a communication support tool. It does not diagnose, treat, or replace medical care. In an
           emergency, contact clinical staff immediately.
         </p>
+        <p className="copyright-mark">&copy; 2026 Mark Lavery</p>
       </section>
 
       <section className="settings-panel" aria-labelledby="install-title">
@@ -162,6 +180,22 @@ export default function SettingsScreen({ settings, updateSettings, onReset, onBa
           <li>Choose Add to Home Screen.</li>
           <li>Tap Add.</li>
         </ol>
+      </section>
+
+      <section className="settings-panel" aria-labelledby="update-title">
+        <h2 id="update-title">App updates</h2>
+        <p>Refreshes installed app files without removing saved people, photos, phrases, or settings.</p>
+        <button
+          className="wide-action primary"
+          type="button"
+          onClick={handleRefreshInstalledApp}
+          disabled={isRefreshing}
+        >
+          {isRefreshing ? 'Refreshing app...' : 'Refresh installed app'}
+        </button>
+        <p className="inline-status" aria-live="polite">
+          {refreshStatus}
+        </p>
       </section>
 
       <section className="settings-panel danger-panel" aria-labelledby="reset-title">
